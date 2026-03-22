@@ -6,3 +6,5 @@ crash.log
 
 # Optional (recommended to KEEP instead)
 # .terraform.lock.hcl
+
+.gitignore
