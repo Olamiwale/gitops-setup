@@ -5,10 +5,22 @@ on:
     branches: [main]
     paths:
       - 'app/**'
+    
+  pull_request:
+    branches: [main]
 
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+  
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: gitops-app
+
+  
 
 jobs:
   build-and-push:
