@@ -168,13 +168,6 @@ jobs:
             severity: CRITICAL,HIGH
             ignore-unfixed: true
             exit-code: 0
-          # image-ref: gitops-app:${{ github.sha }}
-          # format: table
-          # severity: CRITICAL,HIGH
-          # exit-code: 1
-          # ignore-unfixed: true
-
-
  
   #SBOM
 
