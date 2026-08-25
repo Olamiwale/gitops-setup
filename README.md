@@ -6,17 +6,17 @@ GitHub
    │
    ▼
 
-│       GitHub Actions CI       │
-│                               │
-│  1. Checkout                  │
-│  2. Install dependencies      │
-│  3. Lint                      │
-│  4. Unit tests                │
-│  5. Build application         │
-│  6. Security / dependency scan│
-│  7. Build Docker image        │
-│  8. Container scan (Trivy)    │
-└───────────────┬───────────────┘
+GitHub Actions CI
+
+Checkout               
+Install dependencies   
+Lint                   
+Unit tests             
+Build application      
+Security / dependency scan
+Build Docker image        
+Container scan (Trivy)    
+
                 │
                 ▼
        Container Registry
