@@ -1,0 +1,38 @@
+name: Promote DEV
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+
+jobs:
+
+  promote:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout GitOps repository
+        uses: actions/checkout@v4
+        with:
+          repository: company/myapp-gitops
+          token: ${{ secrets.GITOPS_TOKEN }}
+
+      - name: Update PRODUCTION image
+        run: |
+          sed -i \
+            "s/tag:.*/tag: ${{ github.event.workflow_run.head_sha }}/" \
+            environments/dev/kustomization.yaml
+
+      - name: Commit DEV promotion
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add .
+          git commit -m "Promote ${{ github.event.workflow_run.head_sha }} to dev"
+          git push
