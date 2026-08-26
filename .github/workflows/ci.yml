@@ -133,9 +133,7 @@ jobs:
       - name: Build Docker image
         working-directory: app
         run: |
-          docker build \
-            -t gitops-app:${{ github.sha }} \
-            .
+          docker build -t gitops-app:${{ github.sha }} ./app
 
       - name: Verify Docker image
         run: docker images gitops-app
@@ -157,7 +155,7 @@ jobs:
       - name: Build Docker image
         working-directory: app
         run: |
-          docker build -t gitops-app:${{ github.sha }} .
+          docker build -t gitops-setup:${{ github.sha }} ./app
 
       - name: Trivy image scan
         uses: aquasecurity/trivy-action@v0.36.0
@@ -184,9 +182,7 @@ jobs:
       - name: Build Docker image
         working-directory: app
         run: |
-          docker build \
-            -t gitops-app:${{ github.sha }} \
-            .
+          docker build -t gitops-setup:${{ github.sha }} ./app
 
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
