@@ -133,7 +133,7 @@ jobs:
       - name: Build Docker image
         working-directory: app
         run: |
-          docker build -t gitops-app:${{ github.sha }} ./app
+          docker build -t gitops-setup:${{ github.sha }} ./app
 
       - name: Verify Docker image
         run: docker images gitops-app
