@@ -50,33 +50,6 @@ Container scan (Trivy)
         │ RollingUpdate │
         └───────────────┘
 
-
-        PR
- ↓
-Lint
- ↓
-Tests
- ↓
-SAST
- ↓
-Dependency scan
- ↓
-Secrets scan
- ↓
-Docker build
- ↓
-Trivy
- ↓
-SBOM
- ↓
-Image signing
- ↓
-Registry
-
-
-
-
-
 Developer
    │
    │ git push / Pull Request
@@ -186,10 +159,6 @@ docker rm gitops-app
    └── Secret scan 
 
 3. 
-
-
-
-
 
 
 # GitOps CI/CD Pipeline
@@ -315,8 +284,6 @@ gitops-pipeline/
 │
 └── README.md
 ```
-
-## Next Steps
 
 ### Phase 5 — Container Registry
 
