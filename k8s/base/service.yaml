@@ -1,12 +1,19 @@
 apiVersion: v1
-kind: Service
-metadata:
-  name: gitops-app
-spec:
-  selector:
-    app: gitops-app
-  ports:
-    - port: 80
-      targetPort: 3000
-  type: ClusterIP
 
+kind: Service
+
+metadata:
+  name: billing-api-service
+  namespace: production
+  labels:
+    app.kubernetes.io/name: billing-api
+
+spec:
+  type: LoadBalancer 
+  selector:
+    app: billing-api 
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80         
+    targetPort: http 

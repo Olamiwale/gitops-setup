@@ -1,28 +1,84 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gitops-app
+  name: gitops-setup-deployment
+  namespace: production
   labels:
-    app: gitops-app
+    app.kubernetes.io/name: gitops-setup
+    app.kubernetes.io/part-of: gitops-setup
+    app.kubernetes.io/tier: backend
 spec:
-  replicas: 1
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1      
+      maxUnavailable: 0 
   selector:
     matchLabels:
-      app: gitops-app
+      app: gitops-setup
   template:
     metadata:
       labels:
-        app: gitops-app
+        app: gitops-setup 
     spec:
+      terminationGracePeriodSeconds: 30 
       containers:
-        - name: gitops-app
-          image: gitops-app:latest
-          ports:
-            - containerPort: 3000
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "250m"
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
+      - name: gitops-setup-container
+        image: nginx:1.27.0-alpine 
+        imagePullPolicy: IfNotPresent
+        
+     
+        ports:
+        - name: http
+          containerPort: 8080 
+        
+       
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: database_url
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+
+      
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"    
+          limits:
+            memory: "512Mi"  
+            cpu: "500m"      
+
+    
+        startupProbe:
+          httpGet:
+            path: /healthz/startup
+            port: http
+          failureThreshold: 30 
+          periodSeconds: 10
+        
+        livenessProbe:
+          httpGet:
+            path: /healthz/live
+            port: http
+          periodSeconds: 15
+          timeoutSeconds: 2
+          failureThreshold: 3 
+          
+        readinessProbe:
+          httpGet:
+            path: /healthz/ready
+            port: http
+          periodSeconds: 10
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 2  
+

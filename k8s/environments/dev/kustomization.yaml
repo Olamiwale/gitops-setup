@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: gitops-dev
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+images:
+  - name: gitops-setup
+    newName: 234073095486.dkr.ecr.us-east-1.amazonaws.com/gitops-setup
+    newTag: latest
